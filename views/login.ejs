@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="text-center">
+  <main class="form-signin">
+    <form action="/login" method="post">
+      <h1 class="h3 mb-3 fw-normal">Login</h1>
+      <% if (error) { %>
+        <div class="alert alert-danger" role="alert">
+          <%= error %>
+        </div>
+      <% } %>
+      <div class="form-floating">
+        <input type="email" name="email" class="form-control" id="floatingInput" placeholder="E-mail" required>
+        <label for="floatingInput">E-mail</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" name="senha" class="form-control" id="floatingPassword" placeholder="Senha" required>
+        <label for="floatingPassword">Senha</label>
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+    </form>
+    <a href="/register" class="mt-3">Não tem uma conta? Registre-se</a>
+  </main>
+</body>
+</html>
