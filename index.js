@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const app = express();
 const port = 3000;
@@ -10,6 +12,12 @@ const users = [
 ];
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(session({
+  secret: 'secreto', // Chave secreta para assinar o cookie da sessão
+  resave: false,
+  saveUninitialized: true
+}));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -23,6 +31,8 @@ app.post('/login', (req, res) => {
   const user = users.find(u => u.email === email && u.senha === senha);
 
   if (user) {
+    // Definir o usuário na sessão
+    req.session.user = user;
     res.render('profile', { user });
   } else {
     res.render('login', { error: 'Credenciais inválidas. Tente novamente.' });
@@ -30,7 +40,12 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/users', (req, res) => {
-  res.render('users', { users });
+  // Verificar se o usuário está autenticado
+  if (req.session && req.session.user) {
+    res.render('users', { users });
+  } else {
+    res.redirect('/'); // Redirecionar para a página de login se não estiver autenticado
+  }
 });
 
 app.post('/delete-user', (req, res) => {
